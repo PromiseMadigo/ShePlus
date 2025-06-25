@@ -2,191 +2,38 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Weather App</title>
-    <style>
-      body {
-        font-family: Helvetica, Arial, sans-serif;
-        background: linear-gradient(to right, #e0f7fa, #e1f5fe);
-        text-align: center;
-        padding: 20px;
-      }
-
-      h1 {
-        color: #1a64d6;
-        font-size: 34px;
-        line-height: 48px;
-        margin: 0 0 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-      }
-
-      h1 img {
-        width: 48px;
-        height: 48px;
-        animation: float 2s ease-in-out infinite;
-      }
-
-      @keyframes float {
-        0% {
-          transform: translateY(0);
-        }
-        50% {
-          transform: translateY(-8px);
-        }
-        100% {
-          transform: translateY(0);
-        }
-      }
-
-      h2 {
-        font-size: 20px;
-        font-weight: 400;
-        margin-bottom: 20px;
-      }
-
-      ul {
-        list-style: none;
-        padding: 0;
-      }
-
-      li {
-        padding: 10px;
-        border-radius: 10px;
-        transition: 0.3s;
-        max-width: 400px;
-        margin: 0 auto 10px;
-      }
-
-      li:hover {
-        background: #fffbef;
-      }
-
-      p {
-        font-size: 18px;
-        opacity: 0.8;
-        font-family: monospace;
-      }
-
-      input {
-        padding: 10px;
-        border-radius: 20px;
-        border: 1px solid #1a64d6;
-        width: 200px;
-      }
-
-      button {
-        background: #1a64d6;
-        color: #fff;
-        border: none;
-        padding: 12px 20px;
-        border-radius: 25px;
-        cursor: pointer;
-        font-size: 16px;
-        margin: 10px;
-        transition: all 0.3s;
-      }
-
-      button:hover {
-        background: white;
-        color: #1a64d6;
-        border: 1px solid #1a64d6;
-      }
-
-      .weather-info {
-        margin-top: 20px;
-        display: none;
-      }
-
-      .icon {
-        width: 60px;
-        height: 60px;
-      }
-
-      footer {
-        margin-top: 40px;
-        font-size: 14px;
-      }
-
-      a {
-        color: #1a64d6;
-      }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Modern Weather App</title>
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <h1>
-      <img
-        src="https://openweathermap.org/img/wn/01d@2x.png"
-        alt="Weather Emoji"
-      />
-      Weather App
-    </h1>
+    <div class="container">
+      <form id="search-form">
+        <input
+          type="text"
+          id="city-input"
+          placeholder="Enter a city"
+          required
+        />
+        <button type="submit">Search</button>
+      </form>
 
-    <input type="text" id="city-input" placeholder="Search for a city" />
-    <button onclick="getWeather()">Search</button>
+      <div id="main-weather">
+        <h2 id="city-name">City</h2>
+        <p id="current-temp">--°C | --</p>
+      </div>
 
-    <div class="weather-info" id="weather">
-      <h2 id="city"></h2>
-      <img id="icon" class="icon" alt="Weather Icon" />
-      <p>
-        <strong>Temperature:</strong>
-        <span id="temp"></span>°C
-      </p>
-      <p>
-        <strong>Wind:</strong>
-        <span id="wind"></span> km/h
-      </p>
-      <p>
-        <strong>Description:</strong>
-        <span id="description"></span>
-      </p>
+      <div class="forecast-section">
+        <h3>Hourly Forecast</h3>
+        <div id="hourly" class="hourly-forecast"></div>
+      </div>
+
+      <div class="forecast-section">
+        <h3>7-Day Forecast</h3>
+        <div id="daily" class="daily-forecast"></div>
+      </div>
     </div>
 
-    <footer>
-      Coded by Promise |
-      <a href="https://github.com/yourusername/weather-app" target="_blank"
-        >View on GitHub</a
-      >
-    </footer>
-
-    <script>
-      async function getWeather() {
-        const apiKey = "YOUR_REAL_API_KEY_HERE"; // Replace with your actual OpenWeatherMap API key
-        const city = document.getElementById("city-input").value.trim();
-
-        if (!city) {
-          alert("Please enter a city name");
-          return;
-        }
-
-        const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(
-          city
-        )}&appid=${apiKey}&units=metric`;
-
-        try {
-          const response = await fetch(url);
-          if (!response.ok) throw new Error("City not found");
-          const data = await response.json();
-
-          document.getElementById("city").textContent = data.name;
-          document.getElementById("temp").textContent = Math.round(
-            data.main.temp
-          );
-          document.getElementById("wind").textContent = data.wind.speed;
-          document.getElementById("description").textContent =
-            data.weather[0].description;
-          document.getElementById(
-            "icon"
-          ).src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
-
-          document.getElementById("weather").style.display = "block";
-        } catch (error) {
-          alert("Error: " + error.message);
-          document.getElementById("weather").style.display = "none";
-        }
-      }
-    </script>
+    <script src="script.js"></script>
   </body>
 </html>
